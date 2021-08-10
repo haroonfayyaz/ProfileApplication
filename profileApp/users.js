@@ -46,14 +46,6 @@ const viewBlockedUsers = async (profile, id) => {
   } else console.log("User with thus id not found!");
 };
 
-const getMaxId = (profile) =>
-  profile.length === 0
-    ? 0
-    : profile.reduce(
-        (max, character) => (character.id > max ? character.id : max),
-        profile[0].id
-      );
-
 const blockUser = async (profile, id) => {
   const userIndex = profile.findIndex((x) => x.id === id);
   console.log(userIndex);
@@ -121,7 +113,7 @@ const createProfile = async (profile) => {
     for (let i = 0; i < friends.length; i++) {
       const isExist = await usersDBController.checkUserExists(friends[i]);
       if (isExist) {
-        await addFriend(id, friends[i]);
+        await usersDBController.addFriend(id, friends[i]);
       }
     }
 

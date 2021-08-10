@@ -7,5 +7,32 @@
     "person_type": "admin",
     "createdAt": "2021-08-10T11:39:30.000Z",
     "updatedAt": "2021-08-10T11:39:30.000Z"
+  },
+  {
+    "id": 2,
+    "username": "haroon",
+    "password": "1234",
+    "age": 23,
+    "person_type": "user",
+    "createdAt": "2021-08-10T11:50:57.000Z",
+    "updatedAt": "2021-08-10T11:50:57.000Z"
+  },
+  {
+    "id": 3,
+    "username": "ahmad",
+    "password": "2345",
+    "age": 17,
+    "person_type": "user",
+    "createdAt": "2021-08-10T11:51:28.000Z",
+    "updatedAt": "2021-08-10T11:51:28.000Z"
+  },
+  {
+    "id": 6,
+    "username": "hassam",
+    "password": "3456",
+    "age": 12,
+    "person_type": "user",
+    "createdAt": "2021-08-10T11:55:28.000Z",
+    "updatedAt": "2021-08-10T11:55:28.000Z"
   }
 ]
