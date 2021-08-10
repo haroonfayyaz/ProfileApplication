@@ -46,10 +46,7 @@ const viewBlockedUsers = async (profile, id) => {
   } else console.log("User with thus id not found!");
 };
 
-const blockUser = async (profile, id) => {
-  const userIndex = profile.findIndex((x) => x.id === id);
-  console.log(userIndex);
-  if (userIndex === -1) return;
+const blockUser = async (id) => {
   let othersId;
   while (true) {
     othersId = parseInt(
@@ -57,19 +54,13 @@ const blockUser = async (profile, id) => {
     );
     if (othersId !== NaN) break;
   }
-  const othersIndex = profile.findIndex((x) => x.id === othersId);
-  if (othersIndex === -1) {
+  const isExist = await usersDBController.checkUserExists(othersId);
+  if (!isExist) {
     console.log("User with this id doesn't exist");
     return;
   }
-  if (profile[userIndex].blockList.indexOf(othersId) === -1) {
-    profile[userIndex].blockList.push(othersIndex);
-  }
-  filing_input.writeDataToFile(
-    "profile.json",
-    JSON.stringify(profile, null, 2)
-  );
-  console.log(JSON.stringify(profile, null, 2));
+  console.log(id);
+  await usersDBController.blockSpecificUser(id, othersId);
 };
 
 const viewLastMessage = async (id, messages) => {
@@ -90,7 +81,7 @@ const viewLastMessage = async (id, messages) => {
   console.log(result === undefined ? "No message found" : result.message);
 };
 
-const createProfile = async (profile) => {
+const createProfile = async () => {
   try {
     let name = await filing_input.takeInput("Enter your name: ");
     let password = await filing_input.takeInput("Enter your password: ");

@@ -9,6 +9,19 @@ const createUser = async (username, password, age, person_type) => {
   return newUser.id;
 };
 
+const blockSpecificUser = async (user_id1, user_id2) => {
+  console.log("user id1: " + user_id1);
+  const friend = await friends.findOne({
+    where: { user_id1, user_id2 },
+  });
+  if (!friend) {
+    throw Error(`Friend not blocked`);
+  }
+
+  friend.blocked_by = user_id1;
+  await friend.save();
+};
+
 const fetchAllUsersData = async () => {
   let users = [];
   const result = await user.findAll();
@@ -62,4 +75,5 @@ module.exports = {
   loginUser,
   checkUserExists,
   addFriend,
+  blockSpecificUser,
 };

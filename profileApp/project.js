@@ -74,7 +74,7 @@ const displayMenu = async () => {
           );
           switch (option) {
             case "1":
-              await users.blockUser(profile, loginVerification[1]);
+              await users.blockUser(loginVerification[1]);
               break;
             case "2":
               await users.chatWithSomeone(
