@@ -1,31 +1,11 @@
 [
   {
     "id": 1,
-    "password": "admin",
     "username": "admin",
-    "age": "0",
-    "friends": [],
-    "blockList": [],
-    "personType": "admin"
-  },
-  {
-    "id": 2,
-    "password": "1234",
-    "username": "haroon",
-    "age": 20,
-    "friends": [],
-    "blockList": [],
-    "personType": "user"
-  },
-  {
-    "id": 3,
-    "password": "2345",
-    "username": "ahmad",
-    "age": 34,
-    "friends": [],
-    "blockList": [
-      1
-    ],
-    "personType": "user"
+    "password": "admin",
+    "age": 0,
+    "person_type": "admin",
+    "createdAt": "2021-08-10T11:39:30.000Z",
+    "updatedAt": "2021-08-10T11:39:30.000Z"
   }
 ]

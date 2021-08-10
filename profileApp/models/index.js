@@ -2,7 +2,9 @@ const fs = require("fs");
 require("dotenv/config");
 const { sequelize } = require("../dbConnection");
 
-const createTable = (modelName, value) => {
+const createTable = (modelName, value, constraint) => {
+  console.log();
+  constraint === undefined ? {} : constraint;
   const model = sequelize.define(modelName, value);
   model.sync();
   return model;
@@ -18,7 +20,8 @@ const createTables = () => {
         const modelFile = require("./" + value);
         const result = createTable(
           modelFile.modelName,
-          modelFile.modelDefinitions
+          modelFile.modelDefinitions,
+          modelFile.uniqueKeys
         );
         modelsObject[modelFile.modelName] = result;
         console.log(modelsObject);

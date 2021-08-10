@@ -2,17 +2,24 @@ const { DataTypes } = require("sequelize");
 
 const modelName = "Friends";
 const modelDefinitions = {
-  userid1: {
+  user_id1: {
     type: DataTypes.INTEGER,
     references: { model: "users", key: "id" },
   },
-  userid2: {
+  user_id2: {
     type: DataTypes.INTEGER,
     references: { model: "users", key: "id" },
   },
-  blockedBy: {
+  blocked_by: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
 };
-module.exports = { modelName, modelDefinitions };
+const uniqueKeys = {
+  uniqueKeys: {
+    Items_unique: {
+      fields: ["user_id1", "user_id2"],
+    },
+  },
+};
+module.exports = { modelName, modelDefinitions, uniqueKeys };

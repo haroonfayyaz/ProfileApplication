@@ -15,7 +15,7 @@ const _ = require("lodash");
 const users = require("./users");
 const filing_input = require("./filing_input");
 const admin = require("./admin");
-const usersDBController = require("./usersDBController");
+const usersDBController = require("./controllers/usersDBController");
 
 const takeCredentials = async (profile) => {
   let id;
@@ -27,7 +27,7 @@ const takeCredentials = async (profile) => {
     }
   }
   let password = await filing_input.takeInput("Enter password: ");
-  return await users.login(profile, id, password);
+  return await users.login(id, password);
 };
 
 const displayMenu = async () => {
