@@ -15,5 +15,4 @@ const modelDefinitions = {
     allowNull: false,
   },
 };
-
 module.exports = { modelName, modelDefinitions };

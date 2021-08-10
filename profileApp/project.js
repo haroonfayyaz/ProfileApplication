@@ -15,8 +15,7 @@ const _ = require("lodash");
 const users = require("./users");
 const filing_input = require("./filing_input");
 const admin = require("./admin");
-
-const db = require("./dbConnection");
+const userDbController = require("./controllers/usersDbController");
 
 const takeCredentials = async (profile) => {
   let id;
@@ -141,5 +140,5 @@ const displayMenu = async () => {
   }
 };
 
-console.log(db.checkConnection());
+// console.log(userDbController.)
 displayMenu();
