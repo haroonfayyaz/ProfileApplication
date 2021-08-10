@@ -1,5 +1,6 @@
 const filing_input = require("./filing_input");
 const _ = require("lodash");
+const usersDBController = require("./controllers/usersDBController");
 
 const login = async (profile, id, password) => {
   const result = profile.find((p) => p.id === id && p.password === password);
@@ -105,36 +106,38 @@ const createProfile = async (profile) => {
     let friend = await filing_input.takeInput(
       "Enter your friends(in csv format , seperated): "
     );
-    let friends = friend.indexOf(",") !== -1 ? friend.trim().split(",") : [];
+    // let friends = friend.indexOf(",") !== -1 ? friend.trim().split(",") : [];
 
-    if (friends.length > 0) {
-      friends = friends.map((x) => {
-        const result = parseInt(x);
-        if (result == NaN) {
-          return 0;
-        } else return result;
-      });
-    }
-    const id = getMaxId(profile) + 1;
+    // if (friends.length > 0) {
+    //   friends = friends.map((x) => {
+    //     const result = parseInt(x);
+    //     if (result == NaN) {
+    //       return 0;
+    //     } else return result;
+    //   });
+    // }
+    // const id = getMaxId(profile) + 1;
 
-    for (let i = 0; i < friends.length; i++) {
-      let index = profile.findIndex((x) => {
-        x.id === friends[i];
-      });
-      if (index != -1) profile[index].friends.push(id);
-    }
+    // for (let i = 0; i < friends.length; i++) {
+    //   let index = profile.findIndex((x) => {
+    //     x.id === friends[i];
+    //   });
+    //   if (index != -1) profile[index].friends.push(id);
+    // }
 
-    let obj = {
-      id,
-      password: password,
-      username: name,
-      age: age,
-      friends: friends,
-      blockList: [],
-      personType: "user",
-    };
-    console.log("Your id is " + id);
-    profile.push(obj);
+    // let obj = {
+    //   id,
+    //   password: password,
+    //   username: name,
+    //   age: age,
+    //   friends: friends,
+    //   blockList: [],
+    //   personType: "user",
+    // };
+    // console.log("Your id is " + id);
+    // profile.push(obj);
+    // const id = await usersDBController.createUser(name, password, age, "user");
+    const id = 9;
     return ["user", id];
   } catch (error) {
     console.error(error);

@@ -8,5 +8,12 @@ const createUser = async (username, password, age, person_type) => {
 };
 
 const fetchAllUsersData = async () => {
-  return await user.findAll();
+  let users = [];
+  const result = await user.findAll();
+  result.forEach((user) => {
+    users.push(user.dataValues);
+  });
+  return users;
 };
+
+module.exports = { createUser, fetchAllUsersData };

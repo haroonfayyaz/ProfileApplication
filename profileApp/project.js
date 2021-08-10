@@ -15,7 +15,7 @@ const _ = require("lodash");
 const users = require("./users");
 const filing_input = require("./filing_input");
 const admin = require("./admin");
-const userDbController = require("./controllers/usersDbController");
+const usersDBController = require("./usersDBController");
 
 const takeCredentials = async (profile) => {
   let id;
@@ -32,26 +32,14 @@ const takeCredentials = async (profile) => {
 
 const displayMenu = async () => {
   try {
-    let data = await filing_input.readDataFromFile("profile.json");
+    // let data = await filing_input.readDataFromFile("profile.json");
     let data2 = await filing_input.readDataFromFile("messages.json");
 
-    let profile = data == false ? [] : JSON.parse(data);
+    let profile = await usersDBController.fetchAllUsersData();
     let messages = data2 == false ? [] : JSON.parse(data2);
 
     if (profile.length == 0) {
-      profile.push({
-        id: 1,
-        password: "admin",
-        username: "admin",
-        age: "0",
-        friends: [],
-        blockList: [],
-        personType: "admin",
-      });
-      filing_input.writeDataToFile(
-        "profile.json",
-        JSON.stringify(profile, null, 2)
-      );
+      await usersDBController.createUser("admin", "admin", 0, "admin");
     }
     while (true) {
       let loginOption = await filing_input.takeInput(
