@@ -92,9 +92,9 @@ const displayMenu = async () => {
             case 4:
               await admin.deleteProfile();
               break;
-            // case 5:
-            //   await admin.namesStartingWith(profile);
-            //   break;
+            case 5:
+              await admin.namesStartingWith();
+              break;
             case 6:
               return;
             default:

@@ -45,12 +45,13 @@ const checkAdminRecord = async () => {
   }
 };
 
-const namesStartingWith = async (profile) => {
-  let x = await filing_input.takeInput("Enter the characters: ").toLowerCase();
-  var result = _.filter(profile, (item) => {
-    return _.startsWith(item.username.toLowerCase(), x);
-  });
-  console.log(result);
+const namesStartingWith = async () => {
+  let substring = await filing_input.takeInput("Enter the characters: ");
+  substring = substring.toLowerCase();
+
+  var result = await usersDBController.displayNamesStartingWithSpecificString(
+    substring
+  );
 };
 
 module.exports = {

@@ -1,6 +1,7 @@
 const { modelsObject } = require("../models");
 const { Op } = require("sequelize");
 const { sequelize } = require("../dbConnection");
+const users = require("../users");
 
 const user = modelsObject["Users"];
 const friends = modelsObject["Friends"];
@@ -33,10 +34,26 @@ const blockSpecificUser = async (user_id1, user_id2) => {
 const fetchAllUsersData = async () => {
   let users = [];
   const result = await user.findAll();
-  result.forEach((user) => {
+  for (const user of result) {
     users.push(user.dataValues);
-  });
+  }
+
   return users;
+};
+
+const displayNamesStartingWithSpecificString = async (substring) => {
+  const result = await user.findAll({
+    attributes: ["username"],
+    where: { username: { [Op.like]: `${substring + "%"}` } },
+  });
+  if (result.length > 0) {
+    console.log("Names starting with ", substring, " are: ");
+  } else {
+    console.log("No name starting with these characters");
+  }
+  for (const user of result) {
+    console.log(user.dataValues.username);
+  }
 };
 
 const checkUserExists = async (id) => {
@@ -179,4 +196,5 @@ module.exports = {
   filterByAge,
   viewMutualFriends,
   deleteProfile,
+  displayNamesStartingWithSpecificString,
 };
