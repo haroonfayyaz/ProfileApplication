@@ -54,10 +54,50 @@ const checkUserExists = async (id) => {
   return false;
 };
 
+const viewMutualFriends = async (id, friendId) => {
+  try {
+    const result = await sequelize.query(
+      `SELECT username FROM users WHERE id IN(
+        SELECT users FROM
+        (SELECT user_id2 AS 'users'
+          FROM Friends
+          WHERE  user_id1=${id} UNION SELECT user_id1 AS 'users'
+          FROM Friends
+          WHERE  user_id2=${id} ) f1
+        INNER JOIN
+        (SELECT user_id2 AS 'users'
+          FROM Friends
+          WHERE user_id1=${friendId} UNION SELECT user_id1 AS 'users'
+          FROM Friends
+          WHERE  user_id2=${friendId}) f2 USING(users));`
+    );
+    result.forEach((user) => {
+      console.log("The mutual friend(s) are: ");
+      user.forEach((userId) => {
+        console.log(userId.username);
+      });
+      throw console.log("No mututal friend(s) exist");
+    });
+  } catch (err) {}
+};
+
+const deleteProfile = async (id) => {
+  console.log("id: ", id);
+  await friends.destroy({
+    where: {
+      [Op.or]: [{ user_id1: id, user_id2: id }],
+    },
+  });
+  const result = await user.destroy({
+    where: { id },
+  });
+  console.log(result);
+};
+
 const viewBlockedUsers = async (id) => {
   try {
     const result = await sequelize.query(
-      `SELECT DISTINCT username FROM Users where id=(SELECT user_id1 AS 'users' FROM Friends WHERE blocked_by=${id} AND user_id2=${id}) UNION SELECT DISTINCT username FROM Users where id=(SELECT user_id2 AS 'users' FROM Friends WHERE blocked_by=${id} AND user_id1=${id});`
+      `SELECT distinct username FROM Users where id IN(SELECT user_id1 AS 'users' FROM Friends WHERE blocked_by=${id} AND user_id2=${id} UNION SELECT user_id2 AS 'users' FROM Friends WHERE blocked_by=${id} AND user_id1=${id});`
     );
     result.forEach((user) => {
       console.log("The blocked users are: ");
@@ -100,7 +140,7 @@ const filterByAge = async (age) => {
       },
     },
   });
-  console.log(result);
+  console.log(`The total number of users that are ${age}+ are: `, result);
 };
 
 const addFriend = async (user_id1, user_id2) => {
@@ -137,4 +177,6 @@ module.exports = {
   viewLastMessage,
   viewBlockedUsers,
   filterByAge,
+  viewMutualFriends,
+  deleteProfile,
 };

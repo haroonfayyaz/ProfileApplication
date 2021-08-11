@@ -32,9 +32,7 @@ const takeCredentials = async (profile) => {
 
 const displayMenu = async () => {
   try {
-    // if (profile.length == 0) {
-    //   await usersDBController.createUser("admin", "admin", 0, "admin");
-    // }
+    await admin.checkAdminRecord();
     while (true) {
       let loginOption = await filing_input.takeInput(
         "1. Login, 2. Sign Up, 3. Log Out. Enter your option: "
@@ -48,8 +46,7 @@ const displayMenu = async () => {
             console.log("Invalid Credentials");
           break;
         case "2":
-          loginVerification = await users.createProfile(profile);
-
+          loginVerification = await users.createProfile();
           break;
         case "3":
           console.log("exit");
@@ -89,12 +86,12 @@ const displayMenu = async () => {
             case 2:
               await admin.filterByAge();
               break;
-            // case 3:
-            //   await admin.displayMutualFriends(profile);
-            //   break;
-            // case 4:
-            //   await admin.deleteProfile(profile);
-            //   break;
+            case 3:
+              await admin.displayMutualFriends();
+              break;
+            case 4:
+              await admin.deleteProfile();
+              break;
             // case 5:
             //   await admin.namesStartingWith(profile);
             //   break;

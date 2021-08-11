@@ -3,10 +3,9 @@ require("dotenv/config");
 const { sequelize } = require("../dbConnection");
 
 const createTable = (modelName, value, constraint) => {
-  console.log();
   constraint === undefined ? {} : constraint;
   const model = sequelize.define(modelName, value);
-  model.sync();
+  model.sync({});
   return model;
 };
 

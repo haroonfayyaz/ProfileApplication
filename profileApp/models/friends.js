@@ -4,10 +4,14 @@ const modelName = "Friends";
 const modelDefinitions = {
   user_id1: {
     type: DataTypes.INTEGER,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
     references: { model: "users", key: "id" },
   },
   user_id2: {
     type: DataTypes.INTEGER,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
     references: { model: "users", key: "id" },
   },
   blocked_by: {
