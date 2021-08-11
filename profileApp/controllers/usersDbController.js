@@ -33,9 +33,11 @@ const blockSpecificUser = async (user_id1, user_id2) => {
 
 const fetchAllUsersData = async () => {
   let users = [];
-  const result = await user.findAll();
-  for (const user of result) {
-    users.push(user.dataValues);
+  if (user !== undefined) {
+    const result = await user.findAll();
+    for (const user of result) {
+      users.push(user.dataValues);
+    }
   }
 
   return users;

@@ -15,9 +15,8 @@ const _ = require("lodash");
 const users = require("./users");
 const filing_input = require("./filing_input");
 const admin = require("./admin");
-const usersDBController = require("./controllers/usersDBController");
 
-const takeCredentials = async (profile) => {
+const takeCredentials = async () => {
   let id;
   while (true) {
     id = parseInt(await filing_input.takeInput("Enter id: "));
