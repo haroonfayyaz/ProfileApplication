@@ -32,15 +32,9 @@ const takeCredentials = async (profile) => {
 
 const displayMenu = async () => {
   try {
-    // let data = await filing_input.readDataFromFile("profile.json");
-    let data2 = await filing_input.readDataFromFile("messages.json");
-
-    let profile = await usersDBController.fetchAllUsersData();
-    let messages = data2 == false ? [] : JSON.parse(data2);
-
-    if (profile.length == 0) {
-      await usersDBController.createUser("admin", "admin", 0, "admin");
-    }
+    // if (profile.length == 0) {
+    //   await usersDBController.createUser("admin", "admin", 0, "admin");
+    // }
     while (true) {
       let loginOption = await filing_input.takeInput(
         "1. Login, 2. Sign Up, 3. Log Out. Enter your option: "
@@ -49,16 +43,13 @@ const displayMenu = async () => {
       let loginVerification;
       switch (loginOption) {
         case "1":
-          loginVerification = await takeCredentials(profile);
+          loginVerification = await takeCredentials();
           if (loginVerification[0] === false)
             console.log("Invalid Credentials");
           break;
         case "2":
           loginVerification = await users.createProfile(profile);
-          filing_input.writeDataToFile(
-            "profile.json",
-            JSON.stringify(profile, null, 2)
-          );
+
           break;
         case "3":
           console.log("exit");
@@ -83,7 +74,7 @@ const displayMenu = async () => {
               await users.viewBlockedUsers(loginVerification[1]);
               break;
             case "4":
-              await users.viewLastMessage(loginVerification[1], messages);
+              await users.viewLastMessage(loginVerification[1]);
               break;
             case "5":
               flag = false;
@@ -96,21 +87,17 @@ const displayMenu = async () => {
           option = parseInt(option);
           switch (option) {
             case 2:
-              await admin.filterByAge(profile);
+              await admin.filterByAge();
               break;
-            case 3:
-              await admin.displayMutualFriends(profile);
-              break;
-            case 4:
-              await admin.deleteProfile(profile);
-              filing_input.writeDataToFile(
-                "profile.json",
-                JSON.stringify(profile, null, 2)
-              );
-              break;
-            case 5:
-              await admin.namesStartingWith(profile);
-              break;
+            // case 3:
+            //   await admin.displayMutualFriends(profile);
+            //   break;
+            // case 4:
+            //   await admin.deleteProfile(profile);
+            //   break;
+            // case 5:
+            //   await admin.namesStartingWith(profile);
+            //   break;
             case 6:
               return;
             default:

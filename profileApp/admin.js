@@ -1,18 +1,15 @@
 const _ = require("lodash");
 const filing_input = require("./filing_input");
+const usersDBController = require("./controllers/usersDBController");
 
-const filterByAge = async (profile) => {
-  let age = parseInt(await filing_input.takeInput("Enter age: "));
-  const result = _.countBy(profile, (p) => {
-    return p.age < age;
-  });
-  let trueC = 0,
-    falseC = 0;
-  if (result.true !== undefined) trueC = result.true;
-  if (result.false !== undefined) falseC = result.false;
+const filterByAge = async () => {
+  let age;
+  while (true) {
+    age = parseInt(await filing_input.takeInput("Enter age: "));
+    if (age != NaN) break;
+  }
 
-  console.log(`There are ${trueC} users that are under ${age}`);
-  console.log(`There are ${falseC} users that are ${age}+`);
+  await usersDBController.filterByAge(age);
 };
 
 const displayMutualFriends = async (profile) => {

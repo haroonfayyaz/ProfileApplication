@@ -92,6 +92,17 @@ const viewLastMessage = async (id, userId) => {
   }
 };
 
+const filterByAge = async (age) => {
+  const result = await user.count({
+    where: {
+      age: {
+        [Op.gt]: `${age}`,
+      },
+    },
+  });
+  console.log(result);
+};
+
 const addFriend = async (user_id1, user_id2) => {
   await friends.create({ user_id1, user_id2 });
 };
@@ -125,4 +136,5 @@ module.exports = {
   sendMessage,
   viewLastMessage,
   viewBlockedUsers,
+  filterByAge,
 };
