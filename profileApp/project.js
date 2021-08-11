@@ -77,14 +77,10 @@ const displayMenu = async () => {
               await users.blockUser(loginVerification[1]);
               break;
             case "2":
-              await users.chatWithSomeone(
-                profile,
-                loginVerification[1],
-                messages
-              );
+              await users.chatWithSomeone(loginVerification[1]);
               break;
             case "3":
-              await users.viewBlockedUsers(profile, loginVerification[1]);
+              await users.viewBlockedUsers(loginVerification[1]);
               break;
             case "4":
               await users.viewLastMessage(loginVerification[1], messages);

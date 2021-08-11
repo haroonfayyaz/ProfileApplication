@@ -34,5 +34,14 @@
     "person_type": "user",
     "createdAt": "2021-08-10T11:55:28.000Z",
     "updatedAt": "2021-08-10T11:55:28.000Z"
+  },
+  {
+    "id": 7,
+    "username": "suhaib",
+    "password": "1234",
+    "age": 20,
+    "person_type": "user",
+    "createdAt": "2021-08-10T12:55:29.000Z",
+    "updatedAt": "2021-08-10T12:55:29.000Z"
   }
 ]

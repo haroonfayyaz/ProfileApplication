@@ -1,8 +1,10 @@
 const { modelsObject } = require("../models");
 const { Op } = require("sequelize");
+const { sequelize } = require("../dbConnection");
 
 const user = modelsObject["Users"];
 const friends = modelsObject["Friends"];
+const messages = modelsObject["Message"];
 
 const createUser = async (username, password, age, person_type) => {
   const newUser = await user.create({ username, password, age, person_type });
@@ -12,10 +14,16 @@ const createUser = async (username, password, age, person_type) => {
 const blockSpecificUser = async (user_id1, user_id2) => {
   console.log("user id1: " + user_id1);
   const friend = await friends.findOne({
-    where: { user_id1, user_id2 },
+    where: {
+      [Op.or]: [
+        { [Op.and]: [{ user_id1, user_id2 }] },
+        { [Op.and]: [{ user_id1: user_id2, user_id2: user_id1 }] },
+      ],
+    },
   });
   if (!friend) {
-    throw Error(`Friend not blocked`);
+    console.log("You are not friends with this user");
+    return;
   }
 
   friend.blocked_by = user_id1;
@@ -44,6 +52,44 @@ const checkUserExists = async (id) => {
     return true;
   }
   return false;
+};
+
+const viewBlockedUsers = async (id) => {
+  try {
+    const result = await sequelize.query(
+      `SELECT DISTINCT username FROM Users where id=(SELECT user_id1 AS 'users' FROM Friends WHERE blocked_by=${id} AND user_id2=${id}) UNION SELECT DISTINCT username FROM Users where id=(SELECT user_id2 AS 'users' FROM Friends WHERE blocked_by=${id} AND user_id1=${id});`
+    );
+    result.forEach((user) => {
+      console.log("The blocked users are: ");
+      user.forEach((userId) => {
+        console.log(userId.username);
+      });
+      throw console.log("");
+    });
+  } catch (err) {}
+};
+
+const sendMessage = async (messageObject) => {
+  await messages.create(messageObject);
+};
+
+const viewLastMessage = async (id, userId) => {
+  const result = await messages.findOne({
+    attributes: ["message"],
+    where: {
+      [Op.or]: [
+        { [Op.and]: [{ from: id, to: userId }] },
+        { [Op.and]: [{ from: userId, to: id }] },
+      ],
+    },
+    order: [["date", "DESC"]],
+    limit: 1,
+  });
+  if (result !== undefined) {
+    return result.dataValues.message;
+  } else {
+    return "No message found";
+  }
 };
 
 const addFriend = async (user_id1, user_id2) => {
@@ -76,4 +122,7 @@ module.exports = {
   checkUserExists,
   addFriend,
   blockSpecificUser,
+  sendMessage,
+  viewLastMessage,
+  viewBlockedUsers,
 };
