@@ -20,6 +20,10 @@ const createBulkUser = async (dataArr) => {
 const blockSpecificUser = async (user_id1, user_id2) => {
   console.log("user id1: " + user_id1);
   const friend = await friends.findOne({
+    include: {
+      model: user,
+      as: "user_id1",
+    },
     where: {
       [Op.or]: [
         { [Op.and]: [{ user_id1, user_id2 }] },
