@@ -3,9 +3,9 @@ const { Op } = require("sequelize");
 const { sequelize } = require("../dbConnection");
 const users = require("../users");
 
-const user = modelsObject["Users"];
-const friends = modelsObject["Friends"];
-const messages = modelsObject["Message"];
+const user = modelsObject["users"];
+const friends = modelsObject["friends"];
+const messages = modelsObject["messages"];
 
 const createUser = async (username, password, age, person_type) => {
   const newUser = await user.create({ username, password, age, person_type });
