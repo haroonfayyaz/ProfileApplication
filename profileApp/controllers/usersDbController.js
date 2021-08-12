@@ -12,6 +12,11 @@ const createUser = async (username, password, age, person_type) => {
   return newUser.id;
 };
 
+const createBulkUser = async (dataArr) => {
+  const newUser = await user.bulkCreate(dataArr);
+  // return newUser.id;
+};
+
 const blockSpecificUser = async (user_id1, user_id2) => {
   console.log("user id1: " + user_id1);
   const friend = await friends.findOne({
@@ -144,7 +149,7 @@ const viewLastMessage = async (id, userId) => {
     order: [["date", "DESC"]],
     limit: 1,
   });
-  if (result !== undefined) {
+  if (result !== undefined && result !== null) {
     return result.dataValues.message;
   } else {
     return "No message found";
@@ -187,6 +192,7 @@ const loginUser = async (id, password) => {
 
 module.exports = {
   createUser,
+  createBulkUser,
   fetchAllUsersData,
   loginUser,
   checkUserExists,

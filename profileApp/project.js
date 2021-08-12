@@ -32,6 +32,7 @@ const takeCredentials = async () => {
 const displayMenu = async () => {
   try {
     await admin.checkAdminRecord();
+    await users.createProfile(2);
     while (true) {
       let loginOption = await filing_input.takeInput(
         "1. Login, 2. Sign Up, 3. Log Out. Enter your option: "

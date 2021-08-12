@@ -7,7 +7,7 @@ let modelsObject = {};
 const requireFile = (fileName) => {
   const modelFile = require("./" + fileName);
   const model = modelFile.createTable(sequelize);
-  model.sync();
+  model.sync({ force: true });
   modelsObject[modelFile.modelName] = model;
   console.log(modelsObject);
 };
@@ -21,8 +21,23 @@ const createTables = () => {
         requireFile(value);
       }
     });
-    modelsObject["users"].hasMany(modelsObject["friends"]);
-    modelsObject["friends"].belongsTo(modelsObject["users"]);
+    modelsObject["users"].belongsToMany(modelsObject["users"], {
+      through: "friends",
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    });
+    modelsObject["friends"].belongsTo(modelsObject["users"], {
+      as: "user_id1",
+      foreignKey: "user_id1",
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    });
+    modelsObject["friends"].belongsTo(modelsObject["users"], {
+      as: "user_id2",
+      foreignKey: "user_id2",
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    });
   } catch (e) {
     console.log(e);
   }

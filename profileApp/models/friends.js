@@ -29,6 +29,7 @@ module.exports = {
         createdAt: "created_at",
         updatedAt: "updated_at",
         underscore: true,
+        cascade: true,
         uniqueKeys: {
           Items_unique: {
             fields: ["user_id1", "user_id2"],
