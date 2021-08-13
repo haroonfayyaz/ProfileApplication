@@ -22,18 +22,19 @@ const createTables = () => {
       }
     });
     modelsObject["users"].belongsToMany(modelsObject["users"], {
-      through: "friends",
+      through: modelsObject["friends"],
+      as: "users",
+      foreignKey: "user_id1",
+      otherKey: "user_id2",
       onDelete: "cascade",
       onUpdate: "cascade",
     });
     modelsObject["friends"].belongsTo(modelsObject["users"], {
-      as: "user_id1",
       foreignKey: "user_id1",
       onDelete: "cascade",
       onUpdate: "cascade",
     });
     modelsObject["friends"].belongsTo(modelsObject["users"], {
-      as: "user_id2",
       foreignKey: "user_id2",
       onDelete: "cascade",
       onUpdate: "cascade",

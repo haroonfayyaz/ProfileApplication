@@ -1,8 +1,6 @@
 const { modelsObject } = require("../models");
 const { Op } = require("sequelize");
 const { sequelize } = require("../dbConnection");
-const users = require("../users");
-
 const user = modelsObject["users"];
 const friends = modelsObject["friends"];
 const messages = modelsObject["messages"];
@@ -20,10 +18,12 @@ const createBulkUser = async (dataArr) => {
 const blockSpecificUser = async (user_id1, user_id2) => {
   console.log("user id1: " + user_id1);
   const friend = await friends.findOne({
-    include: {
-      model: user,
-      as: "user_id1",
-    },
+    include: [
+      {
+        model: user,
+        foreignKey: "user_id1",
+      },
+    ],
     where: {
       [Op.or]: [
         { [Op.and]: [{ user_id1, user_id2 }] },
