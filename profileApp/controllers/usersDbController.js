@@ -1,6 +1,8 @@
 const { modelsObject } = require("../models");
 const { Op } = require("sequelize");
 const { sequelize } = require("../dbConnection");
+var CryptoJS = require("crypto-js");
+
 const user = modelsObject["users"];
 const friends = modelsObject["friends"];
 const messages = modelsObject["messages"];
@@ -137,7 +139,7 @@ const viewBlockedUsers = async (id) => {
   } catch (err) {}
 };
 
-const sendMessage = async (messageObject) => {
+const sendMessage = async (messageObject, hello) => {
   await messages.create(messageObject);
 };
 
@@ -175,6 +177,8 @@ const addFriend = async (user_id1, user_id2) => {
   await friends.create({ user_id1, user_id2 });
 };
 const loginUser = async (id, password) => {
+  password = CryptoJS.AES.encrypt(password, "secret key 123").toString();
+
   const result = await user.findAll({
     attributes: ["id", "person_type"],
     where: {

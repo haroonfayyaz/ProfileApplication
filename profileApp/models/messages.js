@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-
+require("../globals");
 const modelName = "messages";
 module.exports = {
   modelName,
@@ -24,6 +24,13 @@ module.exports = {
         createdAt: "created_at",
         updatedAt: "updated_at",
         underscore: true,
+        hooks: {
+          afterCreate: (message, options) => {
+            console.log(userId);
+            if (message.dataValues.to === userId) console.log(message);
+            console.log("Options:", options);
+          },
+        },
       }
     );
     return model;

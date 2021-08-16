@@ -15,6 +15,7 @@ const _ = require("lodash");
 const users = require("./users");
 const filing_input = require("./filing_input");
 const admin = require("./admin");
+// require("./globals");
 
 const takeCredentials = async () => {
   let id;
@@ -47,6 +48,7 @@ const displayMenu = async () => {
           break;
         case "2":
           loginVerification = await users.createProfile();
+          userId = loginVerification[1];
           break;
         case "3":
           console.log("exit");
@@ -58,7 +60,7 @@ const displayMenu = async () => {
       while (flag && loginVerification != undefined) {
         if (loginVerification[0] === "user") {
           let option = await filing_input.takeInput(
-            "1. Block User, 2. Chat with someone, 3. View Blocked Users, 4. View Last Message, 5. Exit.\nEnter your option: "
+            "1. Block User, 2. Chat with someone, 3. View Blocked Users, 4. View Last Message, 5. Add Friend, 6. Exit.\nEnter your option: "
           );
           switch (option) {
             case "1":
@@ -74,6 +76,10 @@ const displayMenu = async () => {
               await users.viewLastMessage(loginVerification[1]);
               break;
             case "5":
+              await users.addFriend(loginVerification[1]);
+              break;
+
+            case "6":
               flag = false;
               break;
           }

@@ -7,7 +7,7 @@ let modelsObject = {};
 const requireFile = (fileName) => {
   const modelFile = require("./" + fileName);
   const model = modelFile.createTable(sequelize);
-  model.sync({ force: true });
+  model.sync();
   modelsObject[modelFile.modelName] = model;
   console.log(modelsObject);
 };
