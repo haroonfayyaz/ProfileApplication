@@ -177,8 +177,6 @@ const addFriend = async (user_id1, user_id2) => {
   await friends.create({ user_id1, user_id2 });
 };
 const loginUser = async (id, password) => {
-  password = CryptoJS.AES.encrypt(password, "secret key 123").toString();
-
   const result = await user.findAll({
     attributes: ["id", "person_type"],
     where: {
