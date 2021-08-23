@@ -1,51 +1,53 @@
 const { modelsObject } = require("../models");
 const { Op } = require("sequelize");
-const { sequelize } = require("../dbConnection");
 
 const user = modelsObject["users"];
 const friends = modelsObject["friends"];
 const messages = modelsObject["messages"];
-
-const createUser = async (username, password, age, person_type) => {
-  const newUser = await user.create({ username, password, age, person_type });
-  return newUser.id;
-};
-
-const fetchAllUsersData = async () => {
-  let users = [];
-  if (user !== undefined) {
-    const result = await user.findAll();
-    for (const user of result) {
-      users.push(user.dataValues);
-    }
-  }
-
-  return users;
-};
-
-const fetchUserById = async (req, res) => {
-  console.log(req);
-  const userId = req.params.userId;
-  const result = await user.findByPk(userId);
-  res.send(result);
-};
-
-const deleteProfile = async (id) => {
-  console.log("id: ", id);
-  await friends.destroy({
-    where: {
-      [Op.or]: [{ user_id1: id, user_id2: id }],
-    },
-  });
-  const result = await user.destroy({
-    where: { id },
-  });
-  console.log(result);
-};
-
 module.exports = {
-  createUser,
-  fetchAllUsersData,
-  deleteProfile,
-  fetchUserById,
+
+    createUser: async(req, res, next) => {
+
+        await user.create(req.body).then((user) => {
+            res.send(user);
+        }).catch((err) => {
+            next(err);
+        })
+
+    },
+
+    fetchAllUsersData: async(req, res, next) => {
+        await user.findAll({
+            raw: true,
+            attributes: { exclude: ['created_at', 'updated_at'] }
+        }).then((users) => {
+            res.send(users);
+        }).catch((err) => {
+            next(err);
+        })
+    },
+
+    fetchUserById: async(req, res) => {
+        const userId = req.params.userId;
+        const result = await user.findByPk(userId, {
+            raw: true,
+            attributes: { exclude: ['created_at', 'updated_at'] }
+        });
+        res.send(result);
+    },
+
+    deleteProfile: async(req, res, next) => {
+        const id = req.params.id;
+        await friends.destroy({
+            where: {
+                [Op.or]: [{ user_id1: id, user_id2: id }],
+            },
+        }).then(async(response) => {
+            await user.destroy({
+                where: { id },
+            }).then((response) => {
+                res.sendStatus(200).send(response);
+            }).catch((err) => next(err))
+        }).catch((err) => next(err));
+    }
 };
