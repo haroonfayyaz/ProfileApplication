@@ -84,55 +84,55 @@ const addFriend = async (id) => {
 };
 
 const createProfile = async () => {
-  // const arr = [
-  //   {
-  //     username: "haroon",
-  //     password: "1234",
-  //     age: "17",
-  //     person_type: "user",
-  //   },
-  //   {
-  //     username: "ahmad",
-  //     password: "1234",
-  //     age: "18",
-  //     person_type: "user",
-  //   },
-  // ];
-  // await usersDBController.createBulkUser(arr);
-  // try {
-  //   await usersDBController.addFriend(3, 2);
-  // } catch (err) {}
+  const arr = [
+    {
+      username: "haroon",
+      password: "1234",
+      age: "17",
+      person_type: "user",
+    },
+    {
+      username: "ahmad",
+      password: "1234",
+      age: "18",
+      person_type: "user",
+    },
+  ];
+  await usersDBController.createBulkUser(arr);
   try {
-    let name = await filing_input.takeInput("Enter your name: ");
-    let password = await filing_input.takeInput("Enter your password: ");
-    let age = parseInt(await filing_input.takeInput("Enter your age: "));
-    let friend = await filing_input.takeInput(
-      "Enter your friends(in csv format , seperated): "
-    );
-    let friends = friend.indexOf(",") !== -1 ? friend.trim().split(",") : [];
-    const id = await usersDBController.createUser(name, password, age, "user");
-    console.log("id: ", id);
-    if (friends.length > 0) {
-      friends = friends.map((x) => {
-        const result = parseInt(x);
-        if (result == NaN) {
-          return 0;
-        } else return result;
-      });
-    }
+    await usersDBController.addFriend(3, 2);
+  } catch (err) {}
+  // try {
+  //   let name = await filing_input.takeInput("Enter your name: ");
+  //   let password = await filing_input.takeInput("Enter your password: ");
+  //   let age = parseInt(await filing_input.takeInput("Enter your age: "));
+  //   let friend = await filing_input.takeInput(
+  //     "Enter your friends(in csv format , seperated): "
+  //   );
+  //   let friends = friend.indexOf(",") !== -1 ? friend.trim().split(",") : [];
+  //   const id = await usersDBController.createUser(name, password, age, "user");
+  //   console.log("id: ", id);
+  //   if (friends.length > 0) {
+  //     friends = friends.map((x) => {
+  //       const result = parseInt(x);
+  //       if (result == NaN) {
+  //         return 0;
+  //       } else return result;
+  //     });
+  //   }
 
-    for (let i = 0; i < friends.length; i++) {
-      const isExist = await usersDBController.checkUserExists(friends[i]);
-      if (isExist) {
-        await usersDBController.addFriend(id, friends[i]);
-      }
-    }
+  //   for (let i = 0; i < friends.length; i++) {
+  //     const isExist = await usersDBController.checkUserExists(friends[i]);
+  //     if (isExist) {
+  //       await usersDBController.addFriend(id, friends[i]);
+  //     }
+  //   }
 
-    // const id = 9;
-    return ["user", id];
-  } catch (error) {
-    console.error(error);
-  }
+  //   // const id = 9;
+  //   return ["user", id];
+  // } catch (error) {
+  //   console.error(error);
+  // }
 };
 
 module.exports = {

@@ -1,7 +1,6 @@
 const { modelsObject } = require("../models");
 const { Op } = require("sequelize");
 const { sequelize } = require("../dbConnection");
-var CryptoJS = require("crypto-js");
 
 const user = modelsObject["users"];
 const friends = modelsObject["friends"];
@@ -14,7 +13,7 @@ const createUser = async (username, password, age, person_type) => {
 
 const createBulkUser = async (dataArr) => {
   const newUser = await user.bulkCreate(dataArr);
-  // return newUser.id;
+  console.log(`New User: `, newUser);
 };
 
 const blockSpecificUser = async (user_id1, user_id2) => {

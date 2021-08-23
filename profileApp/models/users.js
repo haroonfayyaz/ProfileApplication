@@ -32,6 +32,9 @@ module.exports = {
       {
         createdAt: "created_at",
         updatedAt: "updated_at",
+        deletedAt: "deleted_at",
+        timestamps: true,
+        paranoid: true,
         underscore: true,
         cascade: true,
       }
