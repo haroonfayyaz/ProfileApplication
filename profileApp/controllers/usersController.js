@@ -11,9 +11,6 @@ const createUser = async (username, password, age, person_type) => {
   return newUser.id;
 };
 
-
-
-
 const fetchAllUsersData = async () => {
   let users = [];
   if (user !== undefined) {
@@ -27,9 +24,10 @@ const fetchAllUsersData = async () => {
 };
 
 const fetchUserById = async (req, res) => {
+  console.log(req);
   const userId = req.params.userId;
   const result = await user.findByPk(userId);
-  res.send(result)
+  res.send(result);
 };
 
 const deleteProfile = async (id) => {
@@ -45,24 +43,9 @@ const deleteProfile = async (id) => {
   console.log(result);
 };
 
-
-
-
-
 module.exports = {
   createUser,
-  createBulkUser,
   fetchAllUsersData,
-  loginUser,
-  checkUserExists,
-  addFriend,
-  blockSpecificUser,
-  sendMessage,
-  viewLastMessage,
-  viewBlockedUsers,
-  filterByAge,
-  viewMutualFriends,
   deleteProfile,
-  displayNamesStartingWithSpecificString,
   fetchUserById,
 };

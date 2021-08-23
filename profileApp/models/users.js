@@ -1,5 +1,4 @@
 const { Sequelize, DataTypes } = require("sequelize");
-var CryptoJS = require("crypto-js");
 
 const modelName = "users";
 
