@@ -1,5 +1,4 @@
 const { DataTypes } = require("sequelize");
-require("../globals");
 const modelName = "messages";
 module.exports = {
   modelName,
