@@ -1,46 +1,46 @@
 const { modelsObject } = require("../models");
 const { Op } = require("sequelize");
 
-const friends = modelsObject["friends"];
+const messages = modelsObject["messages"];
 module.exports = {
-  createFriend: async (req, res, next) => {
-    await friends
+  createMessage: async (req, res, next) => {
+    await messages
       .create(req.body)
-      .then((friend) => {
-        res.send(friend);
+      .then((message) => {
+        res.send(message);
       })
       .catch((err) => {
         next(err);
       });
   },
 
-  fetchAllFriendsData: async (req, res, next) => {
-    await friends
+  fetchAllMessagesData: async (req, res, next) => {
+    await messages
       .findAll({
         raw: true,
         attributes: { exclude: ["created_at", "updated_at"] },
       })
-      .then((friend) => {
-        res.send(friend);
+      .then((message) => {
+        res.send(message);
       })
       .catch((err) => {
         next(err);
       });
   },
 
-  fetchFriendById: async (req, res) => {
-    const friendId = req.params.id;
-    const result = await friends.findOne({
-      where: { id: friendId },
+  fetchMessageById: async (req, res) => {
+    const messageId = req.params.id;
+    const result = await messages.findOne({
+      where: { id: messageId },
       raw: true,
       attributes: { exclude: ["created_at", "updated_at"] },
     });
     res.send(result);
   },
 
-  deleteFriend: async (req, res, next) => {
+  deleteMessage: async (req, res, next) => {
     const id = req.params.id;
-    await friends
+    await messages
       .destroy({
         where: { id },
       })
@@ -49,15 +49,15 @@ module.exports = {
       })
       .catch((err) => next(err));
   },
-  updateFriend: async (req, res, next) => {
+  updateMessage: async (req, res, next) => {
     const id = req.params.id;
-    await friends
+    await messages
       .update(req.body, {
         where: { id },
       })
       .then((response) => {
         if (response.length > 0) {
-          module.exports.fetchFriendById(req, res);
+          module.exports.fetchMessageById(req, res);
         }
       })
       .catch((err) => {

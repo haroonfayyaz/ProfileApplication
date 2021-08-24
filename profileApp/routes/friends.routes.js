@@ -6,13 +6,13 @@ var router = express.Router();
 router.get("/", friendsDBController.fetchAllFriendsData);
 
 /* GET Specific Friend Data. */
-router.get("/:friendId", friendsDBController.fetchFriendById);
-
+router.get("/:id", friendsDBController.fetchFriendById);
 
 /*POST user data*/
 router.post("/", friendsDBController.createFriend);
 
 router.delete("/:id", friendsDBController.deleteFriend);
 
+router.put("/:id", friendsDBController.updateFriend);
 
 module.exports = router;
