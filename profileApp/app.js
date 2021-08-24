@@ -18,6 +18,6 @@ app.use(express.json());
 app.use("/users", usersRouter);
 app.use("/friends", friendsRouter);
 app.use("/messages", messagesRouter);
-app.use("/*", indexRouter);
+app.use("/*", usersRouter);
 
 module.exports = app;
