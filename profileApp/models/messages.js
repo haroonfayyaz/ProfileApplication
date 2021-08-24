@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const modelName = "messages";
 module.exports = {
   modelName,
@@ -17,6 +17,7 @@ module.exports = {
         },
         date: {
           type: DataTypes.DATE,
+          defaultValue: Sequelize.NOW,
         },
       },
       {
@@ -25,9 +26,7 @@ module.exports = {
         underscore: true,
         hooks: {
           afterCreate: (message, options) => {
-            console.log(userId);
-            if (message.dataValues.to === userId) console.log(message);
-            console.log("Options:", options);
+            console.log(message.dataValues);
           },
         },
       }

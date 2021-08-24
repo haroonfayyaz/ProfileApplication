@@ -8,11 +8,13 @@ router.get("/", friendsDBController.fetchAllFriendsData);
 /* GET Specific Friend Data. */
 router.get("/:id", friendsDBController.fetchFriendById);
 
-/*POST user data*/
+/*POST Friend data*/
 router.post("/", friendsDBController.createFriend);
 
+/* DELETE Friend Data */
 router.delete("/:id", friendsDBController.deleteFriend);
 
+/* UPDATE Friend Data */
 router.put("/:id", friendsDBController.updateFriend);
 
 module.exports = router;

@@ -1,68 +1,20 @@
-const { modelsObject } = require("../models");
-const { Op } = require("sequelize");
+var express = require("express");
+var messagesDBController = require("../controllers/messagesController");
+var router = express.Router();
 
-const messages = modelsObject["messages"];
-module.exports = {
-  createMessage: async (req, res, next) => {
-    await messages
-      .create(req.body)
-      .then((message) => {
-        res.send(message);
-      })
-      .catch((err) => {
-        next(err);
-      });
-  },
+/* GET messages listing. */
+router.get("/", messagesDBController.fetchAllMessagesData);
 
-  fetchAllMessagesData: async (req, res, next) => {
-    await messages
-      .findAll({
-        raw: true,
-        attributes: { exclude: ["created_at", "updated_at"] },
-      })
-      .then((message) => {
-        res.send(message);
-      })
-      .catch((err) => {
-        next(err);
-      });
-  },
+/* GET Specific Message Data. */
+router.get("/:id", messagesDBController.fetchMessageById);
 
-  fetchMessageById: async (req, res) => {
-    const messageId = req.params.id;
-    const result = await messages.findOne({
-      where: { id: messageId },
-      raw: true,
-      attributes: { exclude: ["created_at", "updated_at"] },
-    });
-    res.send(result);
-  },
+/*POST Message data*/
+router.post("/", messagesDBController.createMessage);
 
-  deleteMessage: async (req, res, next) => {
-    const id = req.params.id;
-    await messages
-      .destroy({
-        where: { id },
-      })
-      .then((_) => {
-        res.sendStatus(200);
-      })
-      .catch((err) => next(err));
-  },
-  updateMessage: async (req, res, next) => {
-    const id = req.params.id;
-    await messages
-      .update(req.body, {
-        where: { id },
-      })
-      .then((response) => {
-        if (response.length > 0) {
-          module.exports.fetchMessageById(req, res);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        next(err);
-      });
-  },
-};
+/* DELETE Message Data */
+router.delete("/:id", messagesDBController.deleteMessage);
+
+/* UPDATE Message Data */
+router.put("/:id", messagesDBController.updateMessage);
+
+module.exports = router;
